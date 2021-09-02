@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+
+  <h1>User List</h1>
+
+  <p><a href="users/new"><button><strong>Add New User</strong></button></a></p>
+
+  <table border="1" cellpadding="20" cellspacing="0">
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+    <tr th:each="user, state: ${users}" align="center">
+      <td th:text="${state.index + 1}"></td>
+      <td>
+        <a th:href="@{/users/{id}(id = ${user.getId()})}">
+          <span th:text="${user.getName()}"></span>
+          <span th:text="${user.getSurname()}"></span>
+        </a>
+      </td>
+      <td th:text="${user.getAge()}"></td>
+      <td th:text="${user.getEmail()}"></td>
+      <td>
+        <a th:href="@{/users/{id}/edit(id=${user.getId()})}"  style="float: left">
+          <button>edit</button>
+        </a>
+        <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}" style="float: left; margin-left: 15px">
+          <input type="submit" value="delete"/>
+        </form>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
