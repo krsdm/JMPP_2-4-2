@@ -2,14 +2,17 @@ package web.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import web.models.Role;
 import web.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
-@Transactional
 public class JpaUserDaoImpl implements UserDao {
 
     @PersistenceContext
@@ -23,24 +26,34 @@ public class JpaUserDaoImpl implements UserDao {
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
+    @Transactional
     public void saveUser(User user) {
         entityManager.persist(user);
     }
 
     @Override
+    @Transactional
     public void updateUser(User updatedUser) {
         entityManager.merge(updatedUser);
     }
 
     @Override
-    public void removeUser(int id) {
-        entityManager.createQuery("delete from User u where u.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
+    @Transactional
+    public void removeUser(long id) {
+        entityManager.remove(getUserById(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getUserByName(String userName) {
+        return entityManager.createQuery("select u from User u where u.name = :name", User.class)
+                .setParameter("name", userName)
+                .getResultStream()
+                .findFirst().orElse(null);
     }
 }

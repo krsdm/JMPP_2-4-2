@@ -17,6 +17,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Email</th>
+            <th>Roles</th>
             <th>Actions</th>
         </tr>
         <tr align="center">
@@ -27,6 +28,11 @@
             </td>
             <td th:text="${user.getAge()}"></td>
             <td th:text="${user.getEmail()}"></td>
+            <td>
+                <span th:each="role: ${user.getRoles()}">
+                  <p th:text="${role.getName()}"></p>
+                </span>
+            </td>
             <td>
                 <a th:href="@{/users/{id}/edit(id=${user.getId()})}"  style="float: left">
                     <button>edit</button>
