@@ -1,3 +1,6 @@
+
+/*   Initianal data   */
+
 INSERT INTO `usersdb`.`users` (`name`, `surname`, `password`, `age`, `email`) VALUES ('Dmitry', 'Krasilniov', '123', '40', 'dmitrykrasilnikov@mail.com');
 INSERT INTO `usersdb`.`users` (`name`, `surname`, `password`, `age`, `email`) VALUES ('Ivan', 'Ivanov', '456', '30', 'ivanivanov@mail.com');
 INSERT INTO `usersdb`.`users` (`name`, `surname`, `password`, `age`, `email`) VALUES ('Elena', 'Popova', '789', '20', 'elenapopova@mail.com');

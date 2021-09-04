@@ -9,7 +9,7 @@
 
   <h1>User List</h1>
 
-  <p><a href="users/new"><button><strong>Add New User</strong></button></a></p>
+  <p><a href="/admin/new"><button><strong>Add New User</strong></button></a></p>
 
   <table border="1" cellpadding="20" cellspacing="0">
     <tr>
@@ -23,7 +23,7 @@
     <tr th:each="user, state: ${users}" align="center">
       <td th:text="${state.index + 1}"></td>
       <td>
-        <a th:href="@{/users/{id}(id = ${user.getId()})}">
+        <a th:href="@{/user/{id}(id = ${user.getId()})}">
           <span th:text="${user.getName()}"></span>
           <span th:text="${user.getSurname()}"></span>
         </a>
@@ -36,10 +36,10 @@
         </span>
       </td>
       <td>
-        <a th:href="@{/users/{id}/edit(id=${user.getId()})}"  style="float: left">
+        <a th:href="@{/admin/{id}/edit(id=${user.getId()})}"  style="float: left">
           <button>edit</button>
         </a>
-        <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}" style="float: left; margin-left: 15px">
+        <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}" style="float: left; margin-left: 15px">
           <input type="submit" value="delete"/>
         </form>
       </td>

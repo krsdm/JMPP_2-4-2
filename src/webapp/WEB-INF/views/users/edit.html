@@ -8,9 +8,9 @@
 
     <h1>Edit User</h1>
 
-    <p><a href="/users"><button><strong>All Users</strong></button></a></p>
+    <p><a href="/admin"><button><strong>All Users</strong></button></a></p>
 
-    <form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
+    <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
         <p>
             <label for="name">Name</label><br/>
             <input type="text" th:field="*{name}" id="name"/>
@@ -32,12 +32,11 @@
             <input type="email" th:field="*{email}" id="email"/>
         </p>
         <p>
+            <input type=radio id=user name=roles[] value="ROLE_USER" checked/>
             <label for="user">User</label>
-            <input type=radio id=user name=roles[] value="ROLE_USER" checked>
-        </p>
-        <p>
+
+            <input type=radio id=admin name=roles[] value="ROLE_ADMIN"/>
             <label for="admin">Admin</label>
-            <input type=radio id=admin name=roles[] value="ROLE_ADMIN">
         </p>
         <p>
             <button type="submit"><strong>Update User</strong></button>
