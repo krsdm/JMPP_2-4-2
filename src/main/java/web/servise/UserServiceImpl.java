@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import web.dao.RoleDao;
 import web.dao.UserDao;
+import web.models.Role;
 import web.models.User;
 
 import java.util.List;
@@ -51,4 +52,30 @@ public class UserServiceImpl implements UserService {
     public User getUserByName(String userName) {
         return userDao.getUserByName(userName);
     }
+
+    @Override
+    public List<Role> getRoles() {
+        return roleDao.getRoles();
+    }
+
+    @Override
+    public void remove(Role role) {
+        roleDao.remove(role);
+    }
+
+    @Override
+    public void saveRole(Role role) {
+        roleDao.saveRole(role);
+    }
+
+    @Override
+    public Role getRoleById(Long id) {
+        return roleDao.getById(id);
+    }
+
+    @Override
+    public Role getByName(String name) {
+        return roleDao.getByName(name);
+    }
+
 }

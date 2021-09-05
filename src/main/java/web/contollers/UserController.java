@@ -4,15 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import web.models.Role;
 import web.models.User;
 import web.servise.UserService;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Controller
-public class UsersController {
+public class UserController {
     private final UserService userService;
 
     @Autowired
-    UsersController(UserService userService) {
+    UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -30,12 +35,15 @@ public class UsersController {
 
     @GetMapping("/admin/new")
     public String newUser(Model model) {
-        model.addAttribute("newUser", new User());
+        model.addAttribute("roles", userService.getRoles());
+        model.addAttribute("user", new User());
         return "users/new";
     }
 
-    @PostMapping("/admin")
-    public String createUser(@ModelAttribute("user") User user) {
+    @PostMapping("/admin/new")
+    public String createUser(@ModelAttribute("user") User user,
+                             @RequestParam(value = "roleIdList") List<Long> roleIdList) {
+        roleIdList.forEach(id -> user.addRole(userService.getRoleById(id)));
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -43,11 +51,14 @@ public class UsersController {
     @GetMapping("/admin/{id}/edit")
     public String editUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("roles", userService.getRoles());
         return "users/edit";
     }
 
-    @PatchMapping("/admin/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
+    @PatchMapping("/admin/{id}/edit")
+    public String updateUser(@ModelAttribute("user") User user,
+                             @RequestParam(value = "roleIdList") List<Long> roleIdList) {
+        roleIdList.forEach(id -> user.addRole(userService.getRoleById(id)));
         userService.updateUser(user);
         return "redirect:/admin";
     }

@@ -1,6 +1,7 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import web.models.Role;
 
 import javax.persistence.EntityManager;
@@ -14,11 +15,13 @@ public class JpaRoleDaoImpl implements RoleDao{
     private EntityManager entityManager;
 
     @Override
-    public List<Role> getRolse() {
+    @Transactional(readOnly = true)
+    public List<Role> getRoles() {
         return entityManager.createQuery("select r from Role r", Role.class).getResultList();
     }
 
     @Override
+    @Transactional
     public void remove(Role role) {
         entityManager.remove(role);
     }
@@ -27,9 +30,17 @@ public class JpaRoleDaoImpl implements RoleDao{
     public Role getByName(String name) {
         return entityManager.createQuery("select r from Role r where r.name = :name", Role.class)
                 .setParameter("name", name)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+                .getSingleResult();
+    }
+
+    @Override
+    public void saveRole(Role role) {
+        entityManager.persist(entityManager.merge(role));
+    }
+
+    @Override
+    public Role getById(Long id) {
+        return entityManager.find(Role.class, id);
     }
 
 }

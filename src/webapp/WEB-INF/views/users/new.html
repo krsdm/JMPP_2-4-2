@@ -11,7 +11,7 @@
 
     <a href="/admin"><button><strong>All Users</strong></button></a>
 
-    <form th:method="POST" th:action="@{/admin}" th:object="${newUser}">
+    <form th:method="POST" th:action="@{/admin/new}" th:object="${user}">
         <p>
             <label for="name">Name</label><br/>
             <input type="text" th:field="*{name}" id="name"/>
@@ -33,11 +33,10 @@
             <input type="email" th:field="*{email}" id="email"/>
         </p>
         <p>
-            <input type=radio id=user name=roles[] value="ROLE_USER" checked/>
-            <label for="user">User</label>
-
-            <input type=radio id=admin name=roles[] value="ROLE_ADMIN"/>
-            <label for="admin">Admin</label>
+            <th:block th:each="role: ${roles}">
+                <input type=checkbox name=roleIdList th:value="${role.getId()}" th:checked="${role.getName()=='ROLE_USER'}"/>
+                <label th:text="${role.nameNoPrefix()}"></label><br/>
+            </th:block>
         </p>
         <p>
             <button type="submit"><strong>Create User</strong></button>

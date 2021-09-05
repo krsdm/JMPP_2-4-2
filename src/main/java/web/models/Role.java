@@ -31,6 +31,10 @@ public class Role {
         return name;
     }
 
+    public String nameNoPrefix() {
+       return name.split("_")[1];
+    }
+
     public void setName(String name) {
         this.name = name;
     }

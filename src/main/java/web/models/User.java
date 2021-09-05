@@ -1,6 +1,10 @@
 package web.models;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,21 +19,22 @@ public class User {
     private String surname;
     private String password;
     private String email;
-    private byte age;
+    private Integer age;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id")
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
 
     }
 
-    public User(String name, String surname, String password, byte age, String email, Set<Role> roles) {
+    public User(String name, String surname, String password, Integer age, String email, Set<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.password = password;
@@ -70,11 +75,11 @@ public class User {
         this.surname = surname;
     }
 
-    public byte getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(byte age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -92,6 +97,10 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
     @Override
