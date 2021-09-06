@@ -35,7 +35,7 @@ public class JpaRoleDaoImpl implements RoleDao{
 
     @Override
     public void saveRole(Role role) {
-        entityManager.persist(entityManager.merge(role));
+        entityManager.persist(role);
     }
 
     @Override

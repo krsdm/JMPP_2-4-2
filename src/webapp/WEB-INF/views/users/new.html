@@ -9,7 +9,9 @@
 
     <h1>New User</h1>
 
+    <a href="/"><button><strong>Home</strong></button></a>
     <a href="/admin"><button><strong>All Users</strong></button></a>
+    <a href="/logout"><button><strong>Logout</strong></button></a>
 
     <form th:method="POST" th:action="@{/admin/new}" th:object="${user}">
         <p>

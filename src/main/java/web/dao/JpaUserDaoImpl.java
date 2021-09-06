@@ -6,6 +6,7 @@ import web.models.Role;
 import web.models.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
 import java.util.List;
@@ -32,25 +33,12 @@ public class JpaUserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void saveUser(User user) {
-        entityManager.persist(entityManager.merge(user));
+        entityManager.persist(user);
     }
 
     @Override
     @Transactional
     public void updateUser(User updatedUser) {
-        Set<Role> oldRols = getUserById(updatedUser.getId()).getRoles();
-        Set<Role> updatRols = updatedUser.getRoles();
-        Set<Role> newRols;
-
-        if (oldRols.size() <= updatRols.size()) {
-            newRols = new HashSet<>(oldRols);
-            newRols.addAll(updatRols);
-        } else {
-            newRols = new HashSet<>(oldRols);
-            newRols.retainAll(updatRols);
-        }
-        updatedUser.setRoles(newRols);
-
         entityManager.merge(updatedUser);
     }
 
@@ -65,7 +53,6 @@ public class JpaUserDaoImpl implements UserDao {
     public User getUserByName(String userName) {
         return entityManager.createQuery("select u from User u where u.name = :name", User.class)
                 .setParameter("name", userName)
-                .getResultStream()
-                .findFirst().orElse(null);
+                .getSingleResult();
     }
 }
