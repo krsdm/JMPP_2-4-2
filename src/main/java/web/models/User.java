@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,10 +19,24 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
+    @Size(min = 2, max = 20, message = "Min 2, max 20 symbols")
     private String name;
+
     private String surname;
+
+    @NotNull
+    @Size(min = 3, max = 20, message = "Min 3 symbols, max 20 symbols")
     private String password;
+
+    @NotNull
+    @Pattern(regexp = "^[^@]+@[^@]+\\.[^@]+$", message = "Invalid email")
     private String email;
+
+    @NotNull
+    @Min(14)
+    @Max(127)
     private Integer age;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -31,6 +46,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @Size(min = 1, message = "Select at least one role")
     private Set<Role> roles = new HashSet<>();
 
     public User() {
@@ -122,7 +138,7 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return name.equals(user.name) && surname.equals(user.surname) && password.equals(user.password) && email.equals(user.email) && age.equals(user.age) && roles.equals(user.roles);
+        return name.equals(user.name) && Objects.equals(surname, user.surname) && password.equals(user.password) && email.equals(user.email) && Objects.equals(age, user.age) && roles.equals(user.roles);
     }
 
     @Override

@@ -9,12 +9,12 @@ INSERT INTO `usersdb`.`users` (`name`, `surname`, `password`, `age`, `email`) VA
 INSERT INTO `usersdb`.`users` (`name`, `surname`, `password`, `age`, `email`) VALUES ('Dmitry', 'Sergeev', '258', '20', 'dmitrysergeev@mail.com');
 INSERT INTO `usersdb`.`users` (`name`, `surname`, `password`, `age`, `email`) VALUES ('Anna', 'Smith', '369', '15', 'annasmith@mail.com');
 
-INSERT INTO `usersdb`.`roles` (`name`) VALUES ('ROLE_ADMIN');
 INSERT INTO `usersdb`.`roles` (`name`) VALUES ('ROLE_USER');
+INSERT INTO `usersdb`.`roles` (`name`) VALUES ('ROLE_ADMIN');
 INSERT INTO `usersdb`.`roles` (`name`) VALUES ('ROLE_SOMEONE');
 
-INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('1', '1');
-INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('2', '2');
+INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('1', '2');
+INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('2', '1');
 INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('3', '3');
 INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('4', '3');
 INSERT INTO `usersdb`.`user_roles` (`user_id`, `role_id`) VALUES ('5', '3');

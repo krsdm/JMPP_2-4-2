@@ -1,4 +1,4 @@
-package web.servise;
+package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +7,7 @@ import web.dao.UserDao;
 import web.models.Role;
 import web.models.User;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Service
@@ -47,7 +48,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(String userName) {
-        return userDao.getUserByName(userName);
+        User user;
+        try {
+            user = userDao.getUserByName(userName);
+        } catch (NoResultException e) {
+            return null;
+        }
+        return user;
     }
 
     @Override
