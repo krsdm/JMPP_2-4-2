@@ -20,17 +20,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @NotBlank(message = "Should not be empty")
     @Size(min = 2, max = 20, message = "Min 2, max 20 symbols")
     private String name;
 
     private String surname;
 
-    @NotNull
+    @NotBlank(message = "Should not be empty")
     @Size(min = 3, max = 20, message = "Min 3 symbols, max 20 symbols")
     private String password;
 
-    @NotNull
     @Pattern(regexp = "^[^@]+@[^@]+\\.[^@]+$", message = "Invalid email")
     private String email;
 

@@ -44,7 +44,7 @@ public class AdminController {
     @PostMapping("new")
     public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
 
-        // Если есть ошибки, просим исправить
+        // Если есть ошибки, попросим исправить
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", userService.getRoles());
             return "admin/new";
@@ -58,7 +58,7 @@ public class AdminController {
             return "admin/new";
         }
 
-        // Иначе достаем из базы указанные роли, кладем в юзера и сохраняем
+        // Иначе достаем для юзера по указанным именам роли из базы и сохраняем
         user.setRoles(user.getRoles().stream()
                 .map(role -> userService.getByName(role.getName()))
                 .collect(Collectors.toSet()));
@@ -76,13 +76,13 @@ public class AdminController {
     @PatchMapping("{id}/edit")
     public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
 
-        // Если есть ошибки, поросим исправить
+        // Если есть ошибки, попросим исправить
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", userService.getRoles());
             return "admin/edit";
         }
 
-        // Иначе достаем из базы указанные роли, кладем в юзера и сохраняем
+        // Иначе достаем для юзера по указанным именам роли из базы и сохраняем
         user.setRoles(user.getRoles().stream()
                 .map(role -> userService.getByName(role.getName()))
                 .collect(Collectors.toSet()));
